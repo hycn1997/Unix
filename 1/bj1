@@ -1,0 +1,42 @@
+1、main 函数的标输入main(int argc,int *argv)//argc内包含输入的环境变量的个数，argv里面就是环境变量。一般argc默认为1，包含一个程序运行的全部路径，argv[0]就是全部路径argv[1]是程序输入的第一个字符串，如运行./cs <in 这是linux里面的重定向输入，他就在argv[1]里面。./cs <in >out argv[2] 里面的是>out
+2、unix的文件可以通过dirent.h调用，DIR *dir=opendir(目录路径);dir中包含的是一个指向文件目录的指针，里面是目录下面的子文件，可以通过readdir(dir)读取，返回的是基础结构体 struct dirent *dir1=readdir(dir);
+3、通过dirent.h和main函数的参数可以实现ls的简单功能
+4、erron处理，erron如果没有出错不会改变其值，只有出错才会检验它的值，erron的值不会被设为0。
+5、最开始erron的类型是int 现在是宏定义的 #defent erron(*__erron_location())         
+正因为如此定义所以它可以被赋值，如
+int main()
+{
+    int a = 0;
+    int i = 0;
+    int *p =
+# 14 "cs.c" 3 4
+            ((void *)0)
+# 14 "cs.c"
+                ;
+
+    for (i = 0; i < 128; i++) {
+
+# 17 "cs.c" 3 4
+       (*__errno_location ())
+# 17 "cs.c"
+             = i;
+        a =
+# 18 "cs.c" 3 4
+           (*__errno_location ())
+# 18 "cs.c"
+                ;
+        printf("a = %d\n", a);
+        perror("abc");
+    }
+    a =
+# 22 "cs.c" 3 4
+       (*__errno_location ())
+# 22 "cs.c"
+            ;
+    printf("a = %d\n", a);
+    return 0;
+}
+这是编译过的文件非常明了
+6、可重入函数：就是函数在执行的时候可以被打断进入别的函数，但不会影响自己的结果，这样erron在frok()创建子进程时就不会导致影响别的进程，一般可重如函数只包含局部变量
+7、sys/types.h包含对用户名和用户组的处理
+
